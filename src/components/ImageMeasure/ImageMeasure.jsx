@@ -113,17 +113,18 @@ export default function ImageMeasure() {
     return { cssW, cssH };
   }
 
-  // client -> image-space coords
-  function clientToImageCoords(e) {
-    const canvas = canvasRef.current;
-    if (!canvas || !imgRef.current) return null;
-    const rect = canvas.getBoundingClientRect();
-    const xInCanvas = e.clientX - rect.left;
-    const yInCanvas = e.clientY - rect.top;
-    const xImg = (xInCanvas - offset.x) / scale;
-    const yImg = (yInCanvas - offset.y) / scale;
-    return { x: Math.round(xImg), y: Math.round(yImg) };
-  }
+// client -> image-space coords (keep floating point for accuracy)
+function clientToImageCoords(e) {
+  const canvas = canvasRef.current;
+  if (!canvas || !imgRef.current) return null;
+  const rect = canvas.getBoundingClientRect();
+  const xInCanvas = e.clientX - rect.left;
+  const yInCanvas = e.clientY - rect.top;
+  const xImg = (xInCanvas - offset.x) / scale;
+  const yImg = (yInCanvas - offset.y) / scale;
+  return { x: xImg, y: yImg }; // floats, not rounded
+}
+
 
   // image -> canvas coordinates
   const imageToCanvas = (p) => ({ x: offset.x + p.x * scale, y: offset.y + p.y * scale });

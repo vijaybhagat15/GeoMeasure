@@ -2,7 +2,6 @@ import React from "react";
 import { formatLength, formatArea, dist, polygonAreaPixels } from "./utils";
 
 export default function Sidebar({
-  // keep same props you already pass from ImageMeasure
   onUpload,
   calRealMeters,
   setCalRealMeters,
@@ -17,18 +16,8 @@ export default function Sidebar({
 
   return (
     <div className="p-6 space-y-4 bg-gray-200 rounded shadow-md min-w-[22rem]">
-      {/* Upload tile */}
       <div
-        className="
-          w-48 h-32
-          flex flex-col items-center justify-center gap-2
-          border-2 border-dashed 
-          rounded-xl cursor-pointer border-blue-400 bg-blue-50
-          hover:border-blue-600 hover:bg-blue-100
-          transition-all duration-200
-          text-gray-600 text-xs lg:text-lg font-medium
-          relative
-        "
+        className=" w-48 h-32 flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-xl cursor-pointer border-blue-400 bg-blue-50 hover:border-blue-600 hover:bg-blue-100 transition-all duration-200 text-gray-600 text-xs lg:text-lg font-medium relative "
         title="Upload image (click)"
       >
         <div className="text-xs lg:text-lg font-medium">Click to Upload Image</div>
@@ -43,7 +32,6 @@ export default function Sidebar({
         />
       </div>
 
-      {/* Calibration */}
       <div>
         <div className="font-semibold">Calibration</div>
         <div className="text-xs mb-1 text-gray-600">
@@ -95,7 +83,6 @@ export default function Sidebar({
         </div>
       </div>
 
-      {/* Current Shape */}
       <div>
         <div className="font-semibold">Current shape</div>
         <div className="text-sm text-gray-700">Points: <span className="font-medium">{currentPoints.length}</span></div>
@@ -117,7 +104,6 @@ export default function Sidebar({
         )}
       </div>
 
-      {/* Saved Shapes */}
       <div>
         <div className="font-semibold">Saved shapes</div>
         <div className="max-h-40 overflow-auto mt-1 space-y-1">
@@ -127,12 +113,10 @@ export default function Sidebar({
 
           {savedShapes.map((s, i) => {
             const pointsCount = s.points.length;
-            // compute perimeter / length in px
             let pxPerimeter = 0;
             for (let j = 0; j < pointsCount - 1; j++) {
               pxPerimeter += dist(s.points[j], s.points[j + 1]);
             }
-            // if polygon, add closing segment
             if (s.type === "polygon" && pointsCount > 2) {
               pxPerimeter += dist(s.points[pointsCount - 1], s.points[0]);
             }
@@ -155,7 +139,6 @@ export default function Sidebar({
               );
             }
 
-            // polygon details
             const pxArea = polygonAreaPixels(s.points);
             const m2 = scaleMetersPerPx ? pxArea * scaleMetersPerPx * scaleMetersPerPx : null;
 

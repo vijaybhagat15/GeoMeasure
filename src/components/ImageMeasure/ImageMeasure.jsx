@@ -3,8 +3,6 @@ import Sidebar from "./Sidebar";
 import { dist, polygonAreaPixels } from "./utils";
 import ToolbarHeader from "./ToolbarHeader"; 
 
-
-
 export default function ImageMeasure() {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
@@ -25,7 +23,7 @@ export default function ImageMeasure() {
   const [scaleMetersPerPx, setScaleMetersPerPx] = useState(null);
 
   // drawing
-  const [mode, setMode] = useState("none"); // none | calibrate | line | polygon
+  const [mode, setMode] = useState("none"); 
   const [currentPoints, setCurrentPoints] = useState([]);
   const [savedShapes, setSavedShapes] = useState([]);
 
@@ -38,7 +36,6 @@ export default function ImageMeasure() {
   const [panActive, setPanActive] = useState(false);
   const panStateRef = useRef(null);
 
-  // compute meter scale when calibration changes
   useEffect(() => {
     if (calPts.length === 2 && calRealMeters > 0) {
       const pxLen = dist(calPts[0], calPts[1]);
@@ -48,34 +45,29 @@ export default function ImageMeasure() {
     }
   }, [calPts, calRealMeters]);
 
-  // handle file upload
   function handleUpload(e) {
     const f = e.target.files?.[0];
     if (!f) return;
     const url = URL.createObjectURL(f);
     const img = new Image();
     img.onload = () => {
-      // revoke previous url if exists
       if (lastObjectUrl.current) URL.revokeObjectURL(lastObjectUrl.current);
       lastObjectUrl.current = url;
 
       imgRef.current = img;
       setImgSize({ w: img.naturalWidth, h: img.naturalHeight });
       setImageSrc(url);
-      // fit-to-container after load
       requestAnimationFrame(() => resetView(true));
     };
     img.src = url;
   }
 
-  // cleanup object URL on unmount
   useEffect(() => {
     return () => {
       if (lastObjectUrl.current) URL.revokeObjectURL(lastObjectUrl.current);
     };
   }, []);
 
-  // reset / fit view
   const resetView = useCallback((fitOnly = false) => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -113,7 +105,6 @@ export default function ImageMeasure() {
     return { cssW, cssH };
   }
 
-// client -> image-space coords (keep floating point for accuracy)
 function clientToImageCoords(e) {
   const canvas = canvasRef.current;
   if (!canvas || !imgRef.current) return null;
@@ -122,14 +113,13 @@ function clientToImageCoords(e) {
   const yInCanvas = e.clientY - rect.top;
   const xImg = (xInCanvas - offset.x) / scale;
   const yImg = (yInCanvas - offset.y) / scale;
-  return { x: xImg, y: yImg }; // floats, not rounded
+  return { x: xImg, y: yImg }; 
 }
 
 
   // image -> canvas coordinates
   const imageToCanvas = (p) => ({ x: offset.x + p.x * scale, y: offset.y + p.y * scale });
 
-  // click handler (placing points)
   function handleCanvasClick(e) {
     if (!imageSrc || panActive) return;
     const pt = clientToImageCoords(e);
@@ -149,7 +139,6 @@ function clientToImageCoords(e) {
     }
   }
 
-  // wheel zoom
   const handleWheel = useCallback((e) => {
     if (!imgRef.current) return;
     if (e && typeof e.preventDefault === "function") e.preventDefault();
@@ -171,7 +160,6 @@ function clientToImageCoords(e) {
     setOffset({ x: newOffsetX, y: newOffsetY });
   }, [scale, offset]);
 
-  // UI zoom (center)
   function zoomBy(factor) {
     if (!imgRef.current || !canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
@@ -190,7 +178,6 @@ function clientToImageCoords(e) {
 
   const zoomPercent = initialFitScale > 0 ? Math.round((scale / initialFitScale) * 100) : 100;
 
-  // pan handlers
   function handlePointerDown(e) {
     if (!panActive) return;
     panStateRef.current = {
@@ -345,7 +332,6 @@ function clientToImageCoords(e) {
       }
     }
 
-    // top-left overlay
     ctx.fillStyle = "rgba(0,0,0,0.6)";
     ctx.fillRect(8, 8, 320, 26);
     ctx.fillStyle = "white";
@@ -367,12 +353,10 @@ function clientToImageCoords(e) {
     imgSize,
   ]);
 
-  // redraw on state changes
   useEffect(() => {
     draw();
   }, [draw]);
 
-  // attach non-passive wheel listener so preventDefault works
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -395,7 +379,6 @@ function clientToImageCoords(e) {
     return () => window.removeEventListener("resize", onResize);
   }, [resetView, draw, scale, initialFitScale]);
 
-  // live metric for current points
   const liveMetrics = (() => {
     if (!scaleMetersPerPx) return null;
     if (currentPoints.length < 2) return null;
@@ -439,7 +422,6 @@ function clientToImageCoords(e) {
 
   return (
       <>
-      {/* toolbar header above canvas */}
       <div className="mb-1 mr-2">
         <ToolbarHeader
           mode={mode}

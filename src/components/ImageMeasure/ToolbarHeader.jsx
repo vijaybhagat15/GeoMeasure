@@ -1,4 +1,3 @@
-// src/components/ToolbarHeader.jsx
 import React from "react";
 import ToolbarButton from "./ToolbarButton";
 import {
@@ -24,7 +23,6 @@ export default function ToolbarHeader(props) {
 
   return (
     <nav aria-label="Image tools" className="bg-gray-200 border rounded-lg p-2 relative">
-      {/* fade overlays (kept from yours) */}
       <div className="pointer-events-none absolute left-0 top-0 h-full w-6 z-10 hidden md:block"
            style={{ background: "linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)" }} />
       <div className="pointer-events-none absolute right-0 top-0 h-full w-6 z-10 hidden md:block"

@@ -1,13 +1,12 @@
-// src/components/ToolbarButton.jsx
 import React from "react";
 
 export default function ToolbarButton({
   active = false,
   onClick,
-  icon = null,       // React element (e.g. <MdZoomIn />)
-  label = "",        // visible label on md+ (or sr-only when compact)
-  compact = false,   // if true: only show icon (label hidden visually)
-  title,             // tooltip text (falls back to label)
+  icon = null,       
+  label = "",        
+  compact = false,   
+  title,             
   className = "",
 }) {
   const tooltip = title ?? label;
@@ -18,11 +17,7 @@ export default function ToolbarButton({
       onClick={onClick}
       title={tooltip}
       aria-pressed={active}
-      className={`
-        inline-flex items-center justify-center gap-2
-        px-3 py-1.5 rounded-lg text-sm font-sans select-none
-        transition-transform duration-150 ease-out
-        shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-400
+      className={` inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg text-sm font-sans select-none transition-transform duration-150 ease-out shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-400
         ${active
           ? "bg-blue-600 text-white border border-blue-700 shadow-md scale-[1.02]"
           : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 active:scale-95"
@@ -36,7 +31,6 @@ export default function ToolbarButton({
         </span>
       ) : null}
 
-      {/* label: hidden on small screens if compact, otherwise shown */}
       {label ? (
         <span className={`${compact ? "sr-only" : "hidden sm:inline"} text-xs md:text-sm`}>
           {label}

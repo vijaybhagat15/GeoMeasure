@@ -1,9 +1,11 @@
 import ImageMeasure from "./components/ImageMeasure/ImageMeasure"
+import Header from "./components/header/Header"
 function App() {
 
   return (
     <>
-        <ImageMeasure/> 
+      <Header/>
+      <ImageMeasure/> 
     </>
   )
 }

@@ -22,9 +22,9 @@ export default function Sidebar({
         className="
           w-48 h-32
           flex flex-col items-center justify-center gap-2
-          border-2 border-dashed border-gray-300
-          rounded-xl cursor-pointer
-          hover:border-blue-500 hover:bg-blue-50
+          border-2 border-dashed 
+          rounded-xl cursor-pointer border-blue-400 bg-blue-50
+          hover:border-blue-600 hover:bg-blue-100
           transition-all duration-200
           text-gray-600 text-xs lg:text-lg font-medium
           relative

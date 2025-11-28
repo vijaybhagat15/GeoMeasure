@@ -43,6 +43,7 @@ export default function ToolbarHeader(props) {
               active={mode === "calibrate"}
               onClick={() => setMode("calibrate")}
               label="Calibrate"
+              title="Click Calibrate, then place two blue markers on the image to define a known distance."  
             />
           </div>
 
@@ -52,6 +53,7 @@ export default function ToolbarHeader(props) {
               active={mode === "line"}
               onClick={() => setMode("line")}
               label="Line"
+              title="Draw a line"
             />
           </div>
 
@@ -61,6 +63,7 @@ export default function ToolbarHeader(props) {
               active={mode === "polygon"}
               onClick={() => setMode("polygon")}
               label="Polygon"
+              title="Draw a polygon shape"
             />
           </div>
         </div>
@@ -69,10 +72,10 @@ export default function ToolbarHeader(props) {
 
         {/* Edit group */}
         <div className="flex items-center gap-1">
-          <ToolbarButton icon={<MdCheck />} onClick={finishCurrentShape} label="Finish" />
-          <ToolbarButton icon={<MdUndo />} onClick={undoLastPoint} label="Undo" />
-          <ToolbarButton icon={<MdDeleteOutline />} onClick={clearAll} label="Clear" />
-          <ToolbarButton icon={<MdBugReport />} onClick={debugLogAll} label="Debug" />
+          <ToolbarButton icon={<MdCheck />} onClick={finishCurrentShape} label="Finish" title="Finish current shape" />
+          <ToolbarButton icon={<MdUndo />} onClick={undoLastPoint} label="Undo" title="Undo last point"  />
+          <ToolbarButton icon={<MdDeleteOutline />} onClick={clearAll} label="Clear" title="Delete all shapes" />
+          <ToolbarButton icon={<MdBugReport />} onClick={debugLogAll} label="Debug" title="Show debug logs"/>
         </div>
 
         <div className="text-lg lg:text-xl">|</div>
@@ -81,7 +84,7 @@ export default function ToolbarHeader(props) {
         <div className="flex items-center gap-1">
           <ToolbarButton icon={<MdZoomIn />} onClick={() => zoomBy(1.2)} label="Zoom In" />
           <ToolbarButton icon={<MdZoomOut />} onClick={() => zoomBy(1 / 1.2)} label="Zoom Out" />
-          <ToolbarButton icon={<MdRefresh />} onClick={() => resetView(true)} label="Reset" />
+          <ToolbarButton icon={<MdRefresh />} onClick={() => resetView(true)} label="Reset" title="Reset view" />
 
           <div className="text-lg lg:text-xl">|</div>
 
